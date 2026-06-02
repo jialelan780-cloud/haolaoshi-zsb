@@ -72,6 +72,7 @@ export default function AboutHaolaoshiPage() {
   const logo = findLogo();
   const heroStats = nationalLayout.stats;
   const brandTags = ["浙江本地化教研", "分层课程体系", "老师结果可追踪"];
+  const playableVideos = videoLinks.filter((v) => v.url.trim().length > 0);
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -144,7 +145,7 @@ export default function AboutHaolaoshiPage() {
                 <div className="mt-5 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 text-center">
                   {[heroStats[0], heroStats[1], heroStats[4]].map((s) => (
                     <div key={s.label}>
-                      <p className="text-lg font-extrabold text-brand-700">{s.value}</p>
+                      <p className="text-base font-extrabold text-brand-700 sm:text-lg">{s.value}</p>
                       <p className="mt-0.5 text-[11px] leading-4 text-slate-500">{s.label}</p>
                     </div>
                   ))}
@@ -161,7 +162,7 @@ export default function AboutHaolaoshiPage() {
                 className="hero-fade rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15"
                 style={{ animationDelay: `${0.55 + i * 0.08}s` }}
               >
-                <p className="text-2xl font-extrabold">
+                <p className="text-xl font-extrabold sm:text-2xl">
                   {s.value.replace("+", "")}
                   <span className="text-amber-300">+</span>
                 </p>
@@ -470,36 +471,36 @@ export default function AboutHaolaoshiPage() {
           </p>
         )}
 
-        <h3 className="mb-3 mt-10 font-bold text-slate-900">机构 / 校区视频</h3>
-        <div className="grid gap-5 md:grid-cols-2">
-          {videoLinks.map((v) => {
-            const isMp4 = /\.mp4(\?|$)/i.test(v.url);
-            return (
-              <div key={v.title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-                {!v.url ? (
-                  <div className="flex aspect-video items-center justify-center rounded-xl bg-slate-100 px-4 text-center text-sm text-slate-400">
-                    外链待填入（在 data/aboutHaolaoshi.ts 的 videoLinks 中填写该视频地址）
+        {playableVideos.length > 0 ? (
+          <>
+            <h3 className="mb-3 mt-10 font-bold text-slate-900">机构 / 校区视频</h3>
+            <div className="grid gap-5 md:grid-cols-2">
+              {playableVideos.map((v) => {
+                const isMp4 = /\.mp4(\?|$)/i.test(v.url);
+                return (
+                  <div key={v.title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                    {isMp4 ? (
+                      <video controls preload="metadata" poster={v.poster ? src(v.poster) : undefined} className="aspect-video w-full rounded-xl bg-black">
+                        <source src={src(v.url)} type="video/mp4" />
+                        您的浏览器不支持播放该视频。
+                      </video>
+                    ) : (
+                      <iframe
+                        src={v.url}
+                        title={v.title}
+                        loading="lazy"
+                        allowFullScreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        className="aspect-video w-full rounded-xl border-0 bg-black"
+                      />
+                    )}
+                    <p className="mt-2 px-1 text-sm font-medium text-slate-700">{v.title}</p>
                   </div>
-                ) : isMp4 ? (
-                  <video controls preload="metadata" poster={v.poster ? src(v.poster) : undefined} className="aspect-video w-full rounded-xl bg-black">
-                    <source src={src(v.url)} type="video/mp4" />
-                    您的浏览器不支持播放该视频。
-                  </video>
-                ) : (
-                  <iframe
-                    src={v.url}
-                    title={v.title}
-                    loading="lazy"
-                    allowFullScreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    className="aspect-video w-full rounded-xl border-0 bg-black"
-                  />
-                )}
-                <p className="mt-2 px-1 text-sm font-medium text-slate-700">{v.title}</p>
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </>
+        ) : null}
       </SectionShell>
 
       <footer className="border-t border-slate-200 bg-white">

@@ -230,8 +230,10 @@ export interface VideoLink {
   poster?: string;
 }
 
+// 暂不上线视频：url 留空则整块隐藏。
+// 之后把视频传到对象存储 / 视频平台，填入直链(.mp4)或嵌入地址即可自动恢复展示。
 export const videoLinks: VideoLink[] = [
-  { title: "2025 企业宣传片", url: "/haolaoshi-assets/videos/2025企业宣传片.mp4" },
-  { title: "升学帮 APP 介绍", url: "/haolaoshi-assets/videos/5.升学帮APP3介绍.mp4" },
-  { title: "AI 智慧笔", url: "/haolaoshi-assets/videos/AI智慧笔1.mp4" },
+  { title: "2025 企业宣传片", url: "" },
+  { title: "升学帮 APP 介绍", url: "" },
+  { title: "AI 智慧笔", url: "" },
 ];
