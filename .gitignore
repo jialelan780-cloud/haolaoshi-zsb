@@ -1,0 +1,14 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*.local
+next-env.d.ts
+.vercel
+*.tsbuildinfo
+
+# 大体积视频：不纳入 Git（文件仍在磁盘、页面本地可播）。上线请改用对象存储/视频平台外链。
+/public/haolaoshi-assets/videos/*.mp4

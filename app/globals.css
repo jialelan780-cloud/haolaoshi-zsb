@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+}
+
+/* ---------- Hero 动效（克制、轻、慢；尊重 reduce 偏好） ---------- */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes glowDrift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(26px, 18px); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-fade {
+    opacity: 0;
+    animation: heroFadeUp 0.7s cubic-bezier(0.21, 0.6, 0.35, 1) forwards;
+  }
+  .hero-float {
+    animation: floatCard 6s ease-in-out infinite;
+  }
+  .glow-slow {
+    animation: glowDrift 18s ease-in-out infinite;
+  }
+}
