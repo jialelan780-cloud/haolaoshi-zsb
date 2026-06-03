@@ -23,6 +23,8 @@ import {
   getSchoolGroups,
   formatPercent,
 } from "@/lib/admissionData";
+import { testimonials } from "@/lib/testimonials";
+import TestimonialGallery from "@/components/TestimonialGallery";
 
 export const metadata: Metadata = {
   title: "好老师专升本机构介绍 · 专注浙江专升本升学",
@@ -466,6 +468,14 @@ export default function AboutHaolaoshiPage() {
           ))}
         </div>
         <p className="mt-5 rounded-xl bg-amber-50 p-4 text-sm leading-7 text-amber-700">{priceDisclaimer}</p>
+      </SectionShell>
+
+      {/* 11.5 学员感谢 / 真实反馈（高转化位：老师优势之后、上岸案例 / CTA 之前） */}
+      <SectionShell
+        title="学员感谢 / 真实反馈"
+        subtitle="来自学员和家长的真实微信聊天截图、朋友圈反馈，记录老师的陪伴与帮助。"
+      >
+        <TestimonialGallery items={testimonials} />
       </SectionShell>
 
       {/* 12. 上岸案例与感谢反馈 */}
