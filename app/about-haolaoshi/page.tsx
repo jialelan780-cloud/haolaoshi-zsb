@@ -363,13 +363,18 @@ export default function AboutHaolaoshiPage() {
             </div>
             {li ? (
               <>
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <ResultStat label="综合上岸率" value={formatPercent(li.admissionRate)} color="text-brand-600" />
-                  <ResultStat label="公办率" value={formatPercent(li.publicRate)} color="text-emerald-600" />
-                  <ResultStat label="数学 130+" value={`${li.math130Plus} 人`} color="text-orange-600" />
+                <div className="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+                  <ResultStat label="累计带教学生" value={`${li.studentCount} 人`} color="text-brand-600" />
+                  <ResultStat label="累计上岸人数" value={`${li.admittedCount} 人`} color="text-brand-600" />
+                  <ResultStat label="综合上岸率" value={formatPercent(li.admissionRate)} color="text-emerald-600" />
+                  <ResultStat label="公办本科率" value={formatPercent(li.publicRate)} color="text-emerald-600" />
+                  <ResultStat label="数学 130+ 人数" value={`${li.math130Plus} 人`} color="text-orange-600" />
+                  <ResultStat label="最高数学单科" value={`${li.maxMath} 分`} color="text-orange-600" />
+                  <ResultStat label="平均总分" value={li.avgTotal.toFixed(1)} color="text-brand-600" />
+                  <ResultStat label="代表录取院校" value={`${li.schoolCount} 所`} color="text-brand-600" />
                 </div>
                 <div className="mt-4">
-                  <p className="mb-2 text-sm font-semibold text-slate-700">代表录取院校</p>
+                  <p className="mb-2 text-sm font-semibold text-slate-700">部分代表录取院校</p>
                   <div className="flex flex-wrap gap-2">
                     {liSchools.map((s) => (
                       <span key={s} className="rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700">{s}</span>
