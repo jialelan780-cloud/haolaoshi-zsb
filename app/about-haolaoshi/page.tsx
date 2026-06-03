@@ -116,6 +116,21 @@ export default function AboutHaolaoshiPage() {
                   </span>
                 ))}
               </div>
+
+              {/* 专升本可报院校查询入口（首屏 CTA） */}
+              <div className="mt-8">
+                <a
+                  href="/zsb-query/"
+                  className="group block w-full rounded-xl bg-amber-400 px-6 py-4 text-center shadow-lg ring-1 ring-amber-300/50 transition hover:-translate-y-0.5 hover:bg-amber-300 hover:shadow-xl sm:inline-block sm:w-auto sm:text-left"
+                >
+                  <span className="block text-base font-bold text-slate-900 sm:text-lg">
+                    免费查询我的专升本可报院校 →
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-800/80 sm:text-sm">
+                    输入你的专科专业，即可查询 2024-2026 年可报本科院校、本科专业、招生计划、学费和 2026 最低录取分。
+                  </span>
+                </a>
+              </div>
             </div>
 
             {/* 右：品牌 Logo 视觉卡片 */}
@@ -502,6 +517,22 @@ export default function AboutHaolaoshiPage() {
           </>
         ) : null}
       </SectionShell>
+
+      {/* 底部 CTA：专升本可报院校查询入口 */}
+      <section className="px-5 py-12">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 to-brand-600 px-6 py-10 text-center text-white shadow-lg sm:px-10">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">还不确定自己能报哪些本科院校？</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-blue-50 sm:text-base">
+            输入你的专科专业，即可查询 2024-2026 年可报本科院校、本科专业、招生计划、学费和 2026 最低录取分。
+          </p>
+          <a
+            href="/zsb-query/"
+            className="mt-7 inline-block w-full rounded-xl bg-amber-400 px-8 py-4 text-base font-bold text-slate-900 shadow-lg ring-1 ring-amber-300/50 transition hover:-translate-y-0.5 hover:bg-amber-300 hover:shadow-xl sm:w-auto"
+          >
+            免费查询我的专升本可报院校 →
+          </a>
+        </div>
+      </section>
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-5xl px-5 py-8 text-center text-xs leading-6 text-slate-400">

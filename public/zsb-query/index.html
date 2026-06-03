@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>浙江专升本招生计划查询（2024–2026）</title>
+<style>
+  :root { --blue:#1a5fb4; --bg:#f5f7fa; --line:#e3e8ef; --up:#c01c28; --down:#1a7f37;
+          --pub:#1a5fb4; --pri:#b5530a; --oth:#5b6573; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+         background:var(--bg); color:#1f2733; line-height:1.5; }
+  header { background:var(--blue); color:#fff; padding:18px 20px; }
+  header h1 { margin:0; font-size:19px; }
+  header p { margin:4px 0 0; font-size:12px; opacity:.85; }
+  .wrap { max-width:1100px; margin:0 auto; padding:16px 16px 60px; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; }
+  .field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+  .field label { font-size:12px; color:#5b6573; }
+  .field input, .field select { padding:8px 10px; border:1px solid #c8d0db; border-radius:7px; font-size:14px; width:100%; }
+  .field input:focus, .field select:focus { outline:none; border-color:var(--blue); }
+  button { padding:10px 22px; border:none; border-radius:7px; background:var(--blue); color:#fff; font-size:14px; cursor:pointer; }
+  button:hover { background:#154a8c; }
+  .hint { font-size:13px; margin:10px 0 0; padding:8px 12px; border-radius:7px; }
+  .hint-ok { background:#eaf6ec; color:#1a5d2b; }
+  .hint-warn { background:#fff4e5; color:#8a5a00; }
+  .hint b { font-weight:700; }
+  .note { font-size:12px; color:#8a94a3; margin-top:10px; }
+  .quick { margin-top:8px; font-size:12px; }
+  .quick a { color:var(--blue); cursor:pointer; margin-right:12px; text-decoration:underline; }
+
+  /* 专业关键词联想下拉 */
+  .ac { position:relative; }
+  .ac-list { position:absolute; z-index:30; left:0; right:0; top:100%;
+             background:#fff; border:1px solid #c8d0db; border-top:none; border-radius:0 0 8px 8px;
+             max-height:280px; overflow-y:auto; box-shadow:0 8px 20px rgba(20,40,80,.14); }
+  .ac-item { padding:8px 10px; cursor:pointer; font-size:14px; display:flex; justify-content:space-between; gap:10px; }
+  .ac-item:hover, .ac-item.active { background:#eef4fd; }
+  .ac-item .cats { color:#8a94a3; font-size:12px; white-space:nowrap; }
+  .ac-item .kw { color:var(--blue); font-weight:700; }
+  .ac-more, .ac-empty { padding:8px 10px; color:#8a94a3; font-size:13px; }
+
+  /* 查询结果摘要 */
+  .summary { font-size:14px; color:#1f2733; }
+  .summary .title { font-weight:700; font-size:16px; margin-bottom:6px; }
+  .summary .line { font-size:13px; color:#3a4452; }
+  .summary .line b { color:var(--blue); }
+
+  /* 分区 */
+  .section { margin-top:22px; }
+  .section-head { font-size:15px; font-weight:700; padding:8px 12px; border-radius:8px 8px 0 0; color:#fff; }
+  .sh-公办 { background:var(--pub); } .sh-民办 { background:var(--pri); } .sh-其他 { background:var(--oth); }
+
+  /* 学校卡片 */
+  .card { border:1px solid var(--line); border-radius:10px; margin:12px 0; overflow:hidden; background:#fff;
+          box-shadow:0 1px 3px rgba(20,40,80,.06); }
+  .card.bg-公办 { background:#f6f9fe; } .card.bg-民办 { background:#fdf7f2; } .card.bg-其他 { background:#f7f8fa; }
+  .card-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:10px 14px; border-bottom:1px solid var(--line); }
+  .card-head .name { font-size:16px; font-weight:700; }
+  .card-head .code { font-size:12px; color:#8a94a3; }
+  .badge { font-size:12px; padding:2px 9px; border-radius:11px; color:#fff; }
+  .b-公办 { background:var(--pub); } .b-民办 { background:var(--pri); }
+  .b-独立学院 { background:#7a3ca8; } .b-职业本科 { background:#0a7d6e; } .b-未知 { background:#9aa3af; }
+  .card-head .cnt { margin-left:auto; font-size:12px; color:#5b6573; }
+
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  thead th { background:#eef2f8; font-weight:600; white-space:nowrap; }
+  th, td { padding:8px 10px; border-bottom:1px solid #eef1f5; text-align:left; vertical-align:top; }
+  tbody tr:last-child td { border-bottom:none; }
+  .major { font-weight:600; }
+  .score { font-weight:700; color:#b3261e; white-space:nowrap; }
+  .score .muted { font-weight:400; }
+  thead th { background:#eef2f8; }
+  .trend { font-weight:600; white-space:nowrap; }
+  .up { color:var(--up); } .up::after { content:" ▲"; }
+  .down { color:var(--down); } .down::after { content:" ▼"; }
+  .flat { color:#8a94a3; } .flat::after { content:" ―"; }
+  .muted { color:#8a94a3; }
+  .tag { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; white-space:nowrap; }
+  .tag-exact { background:#e7f0ff; color:var(--blue); }
+  .tag-open  { background:#eaf6ec; color:#1a7f37; }
+  .empty { text-align:center; padding:40px; color:#8a94a3; }
+
+  /* 移动端：表格转为堆叠块，避免横向滚动 */
+  @media (max-width:720px) {
+    .wrap { padding:12px 10px 50px; }
+    .card-head .cnt { margin-left:0; flex-basis:100%; }
+    table, thead, tbody, tr, td { display:block; width:100%; }
+    thead { display:none; }
+    tbody tr { padding:8px 12px; border-bottom:6px solid #eef1f5; }
+    td { border:none; padding:3px 0; display:flex; justify-content:space-between; gap:12px; }
+    td::before { content:attr(data-label); color:#8a94a3; font-size:12px; flex:0 0 auto; }
+    td.major { font-size:15px; padding-bottom:6px; }
+    td.major::before { content:""; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>浙江省普通高校专升本招生计划查询</h1>
+  <p>数据年份 2024 / 2025 / 2026 · 招生计划 <span id="mCount"></span> 条 · 专科专业 <span id="mMajor"></span> 个 · 纯前端，无需联网</p>
+</header>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="controls">
+      <div class="field">
+        <label>① 输入你的专科专业（输入关键词后从下拉中选择）</label>
+        <div class="ac">
+          <input id="major" placeholder="输入关键词，如：电子 / 护理 / 会计" autocomplete="off"
+                 oninput="onInput()" onfocus="onInput()" onblur="setTimeout(hideList,150)" onkeydown="onKey(event)" />
+          <div class="ac-list" id="acList" style="display:none"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>② 选择报考大类</label>
+        <select id="category"></select>
+      </div>
+      <div class="field" style="flex:0 0 130px;">
+        <label>③ 年份</label>
+        <select id="year">
+          <option value="all" selected>三年全部</option>
+          <option value="latest">仅最新(2026)</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026">2026</option>
+        </select>
+      </div>
+      <div class="field" style="flex:0 0 auto;">
+        <label>&nbsp;</label>
+        <button onclick="run()">查询</button>
+      </div>
+    </div>
+    <div id="majorHint"></div>
+    <div class="quick">
+      示例：
+      <a onclick="demo('中药制药技术')">中药制药技术</a>
+      <a onclick="demo('商务英语')">商务英语</a>
+      <a onclick="demo('会计')">会计</a>
+      <a onclick="demo('护理')">护理</a>
+      <a onclick="demo('学前教育')">学前教育</a>
+    </div>
+    <div class="note">输入专科专业 → 自动列出可报大类 → 选大类查询。结果按 <b>公办 → 民办 → 其他</b> 分区，同一所学校的专业归在一张卡片内。结果含各专业 <b style="color:#b3261e">历年录取最低分</b>（来源：各院校对应分数，图片表格经 OCR+人工校对；<b>—</b> 表示源表未给分）。学校性质可在 <code>school_type.js</code> 中修改。</div>
+  </div>
+
+  <div class="panel">
+    <div class="summary" id="summary">先在①输入你的专科专业。</div>
+  </div>
+  <div id="result"></div>
+</div>
+
+<script src="/zsb-query/data.js"></script>
+<script src="/zsb-query/school_type.js"></script>
+<script src="/zsb-query/scores.js"></script>
+<script>
+const DATA = window.PLAN_DATA || [];
+const MAP = window.MAJOR_MAP || {};
+const STYPE = window.SCHOOL_TYPE || {};
+const SCORES = window.SCORES || {};
+const SCORE_YEARS = Object.keys(SCORES).filter(y => SCORES[y] && Object.keys(SCORES[y]).length).sort();
+function scoreOf(year, school, major) {
+  const t = SCORES[year]; if (!t) return null;
+  const v = t[school + "||" + major];
+  return (v === undefined ? null : v);
+}
+const META = window.PLAN_META || { years: [], categories: [], count: 0, major_count: 0 };
+const YEARS = META.years.slice().sort();
+const ALL_CATS = META.categories;
+document.getElementById("mCount").textContent = META.count;
+document.getElementById("mMajor").textContent = META.major_count;
+
+// —— 数据加载自检（部署排错用；打开浏览器控制台 Console 查看）——
+(function diag() {
+  console.log("[专升本查询] data.js 加载:", window.PLAN_DATA ? "成功" : "失败",
+              "| 招生计划条数:", DATA.length,
+              "| 专科专业(对照表)条数:", Object.keys(MAP).length,
+              "| scores.js:", window.SCORES ? "已加载" : "未加载");
+  if (!DATA.length || !Object.keys(MAP).length) {
+    console.error("[专升本查询] PLAN_DATA / MAJOR_MAP 为空——专业搜索无法匹配。请确认 data.js 与 index.html 同目录一起部署，并强制刷新(Ctrl+F5)。");
+    const b = document.createElement("div");
+    b.style.cssText = "background:#b3261e;color:#fff;padding:10px 16px;font-size:14px;text-align:center";
+    b.textContent = "⚠ 数据未加载：请确认 data.js 已随站点一起部署（与 index.html 同目录），然后强制刷新（Ctrl+F5 / 清缓存）。";
+    document.body.prepend(b);
+  }
+})();
+
+// 关键词归一化：去掉所有空白，做大小写无关的包含匹配
+const nrm = s => String(s == null ? "" : s).replace(/\s+/g, "").toLowerCase();
+const MAJORS = Object.keys(MAP).sort((a, b) => a.localeCompare(b, "zh"));
+const majorInput = document.getElementById("major");
+const acList = document.getElementById("acList");
+let acMatches = [], acActive = -1;
+
+function hideList() { acList.style.display = "none"; acActive = -1; }
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function hl(name, q) { // 高亮关键词
+  const i = name.indexOf(q); if (i < 0 || !q) return esc(name);
+  return esc(name.slice(0, i)) + '<span class="kw">' + esc(name.slice(i, i + q.length)) + '</span>' + esc(name.slice(i + q.length));
+}
+
+// 输入关键词 -> 渲染联想下拉
+function onInput() {
+  const q = majorInput.value.trim();
+  acActive = -1;
+  if (!q) { hideList(); updateHint(""); return; }
+  const qn = nrm(q);
+  acMatches = MAJORS.filter(m => nrm(m).includes(qn));
+  console.log(`[专升本查询] 关键词「${q}」匹配到 ${acMatches.length} 个专科专业`);
+  // 完全匹配的排在最前
+  acMatches.sort((a, b) => (a === q ? -1 : b === q ? 1 : a.length - b.length));
+  if (!acMatches.length) {
+    acList.innerHTML = `<div class="ac-empty">未找到含「${esc(q)}」的专科专业，请换关键词</div>`;
+    acList.style.display = "block";
+  } else {
+    const show = acMatches.slice(0, 50);
+    acList.innerHTML = show.map((m, i) =>
+      `<div class="ac-item" data-major="${esc(m)}">${hl(m, q)}<span class="cats">${MAP[m].join("、")}</span></div>`
+    ).join("") + (acMatches.length > 50 ? `<div class="ac-more">还有 ${acMatches.length - 50} 个，继续输入以缩小范围…</div>` : "");
+    acList.style.display = "block";
+  }
+  updateHint(q);
+}
+
+acList.addEventListener("mousedown", e => {
+  const it = e.target.closest(".ac-item");
+  if (!it) return;
+  e.preventDefault();
+  selectMajor(it.dataset.major);
+});
+
+// 键盘上下选择 + 回车确认
+function onKey(e) {
+  const items = [...acList.querySelectorAll(".ac-item")];
+  if (acList.style.display === "none" || !items.length) {
+    if (e.key === "Enter") run();
+    return;
+  }
+  if (e.key === "ArrowDown") { e.preventDefault(); acActive = Math.min(acActive + 1, items.length - 1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); acActive = Math.max(acActive - 1, 0); }
+  else if (e.key === "Enter") {
+    e.preventDefault();
+    if (acActive >= 0) selectMajor(items[acActive].dataset.major);
+    else if (MAP[majorInput.value.trim()]) run();
+    return;
+  } else if (e.key === "Escape") { hideList(); return; }
+  else return;
+  items.forEach((it, i) => it.classList.toggle("active", i === acActive));
+  if (acActive >= 0) items[acActive].scrollIntoView({ block: "nearest" });
+}
+
+// 选中某个专业：填入、限定大类、隐藏下拉
+function selectMajor(m) {
+  majorInput.value = m;
+  hideList();
+  updateHint(m);
+  run();
+}
+
+// 根据当前文本更新提示与②的可选大类
+function updateHint(text) {
+  const sel = document.getElementById("category");
+  const hint = document.getElementById("majorHint");
+  let cats;
+  if (MAP[text]) {                       // 已是完整专业名
+    cats = MAP[text];
+    hint.className = "hint hint-ok";
+    hint.innerHTML = `「<b>${esc(text)}</b>」可报大类：<b>${cats.join("、")}</b> —— 已为你限定②的可选范围。`;
+  } else if (!text) {                    // 空
+    cats = ALL_CATS;
+    hint.className = ""; hint.innerHTML = "";
+  } else {                               // 关键词阶段
+    const tn = nrm(text);
+    const n = MAJORS.filter(m => nrm(m).includes(tn)).length;
+    cats = ALL_CATS;
+    if (n > 0) { hint.className = "hint hint-ok"; hint.innerHTML = `找到 <b>${n}</b> 个含「${esc(text)}」的专科专业，请从下拉中选择。`; }
+    else { hint.className = "hint hint-warn"; hint.innerHTML = `未找到含「${esc(text)}」的专科专业，请换个关键词。`; }
+  }
+  sel.innerHTML = cats.map((c, i) => `<option value="${c}" ${i === 0 ? "selected" : ""}>${c}</option>`).join("");
+}
+
+// 学校性质 -> 分区（公办 / 民办 / 其他）
+function sectionOf(type) {
+  if (type === "公办") return "公办";
+  if (type === "民办") return "民办";
+  return "其他"; // 独立学院 / 职业本科 / 未知 / 其他
+}
+function typeOf(school) { return STYPE[school] || "未知"; }
+
+// 从备注/报考要求中拆出可报的专科专业 token
+function eligibleTokens(req) {
+  if (!req) return [];
+  return req
+    .replace(/高职高专阶段所学专业为/g, "").replace(/高职高专所学专业为/g, "").replace(/所学专业为/g, "")
+    .replace(/的考生(均)?可报考/g, "").replace(/考生可报考/g, "").replace(/可报考/g, "").replace(/等专业?/g, "")
+    .split(/[、,，;；。\s]+/).map(s => s.trim()).filter(Boolean);
+}
+function reqIncludes(req, major) {
+  const toks = eligibleTokens(req);
+  if (toks.includes(major)) return true;
+  return toks.some(t => t === major || t.includes(major));
+}
+
+function demo(m) { selectMajor(m); }
+
+function classify(row, major, cat) {
+  if (row.category !== cat) return null;
+  const req = row.junior_major_requirement || "";
+  if (!req) return "open";
+  return reqIncludes(req, major) ? "exact" : null;
+}
+function trend(records) {
+  const byYear = {}; records.forEach(r => byYear[r.year] = r);
+  const ys = YEARS.filter(y => byYear[y]);
+  let dir = "flat", delta = 0;
+  if (ys.length >= 2) {
+    const a = byYear[ys[0]].plan_count, b = byYear[ys[ys.length - 1]].plan_count;
+    delta = b - a; dir = b > a ? "up" : b < a ? "down" : "flat";
+  }
+  return { byYear, dir, delta };
+}
+
+function run() {
+  const major = document.getElementById("major").value.trim();
+  const cat = document.getElementById("category").value;
+  const yearMode = document.getElementById("year").value;
+  const sumEl = document.getElementById("summary");
+  const resEl = document.getElementById("result");
+  if (!major) { sumEl.textContent = "请先输入专科专业。"; resEl.innerHTML = ""; return; }
+  if (!cat) { sumEl.textContent = "请选择报考大类。"; resEl.innerHTML = ""; return; }
+
+  // 1) 匹配并按 学校+本科专业 聚合（计算三年趋势）
+  const groups = new Map();
+  for (const row of DATA) {
+    const reason = classify(row, major, cat);
+    if (!reason) continue;
+    const key = row.school + "||" + row.undergraduate_major;
+    if (!groups.has(key)) groups.set(key, { reason, records: [] });
+    const g = groups.get(key);
+    g.records.push(row);
+    if (reason === "exact") g.reason = "exact";
+  }
+
+  // 2) 年份筛选 + 整理成专业条目
+  let items = [...groups.values()].map(g => {
+    const t = trend(g.records);
+    const latest = g.records.slice().sort((a, b) => b.year - a.year)[0];
+    return { school: latest.school, reason: g.reason, t, latest };
+  });
+  if (yearMode === "latest") items = items.filter(i => i.t.byYear[YEARS[YEARS.length - 1]]);
+  else if (/^\d{4}$/.test(yearMode)) items = items.filter(i => i.t.byYear[+yearMode]);
+
+  if (!items.length) {
+    sumEl.innerHTML = `<div class="title">「${major}」报考【${cat}】</div><div class="line">该大类下暂无匹配，换个大类或专业试试。</div>`;
+    resEl.innerHTML = '<div class="empty">无结果</div>';
+    return;
+  }
+
+  // 3) 按学校聚合成卡片
+  const schools = new Map(); // school -> {type, section, majors:[]}
+  for (const it of items) {
+    if (!schools.has(it.school)) {
+      const type = typeOf(it.school);
+      schools.set(it.school, { school: it.school, type, section: sectionOf(type), majors: [] });
+    }
+    schools.get(it.school).majors.push(it);
+  }
+  for (const s of schools.values())
+    s.majors.sort((a, b) => a.latest.undergraduate_major.localeCompare(b.latest.undergraduate_major, "zh"));
+
+  // 4) 分区：公办 → 民办 → 其他；区内按校名；同校已排专业
+  const SECTIONS = ["公办", "民办", "其他"];
+  const bySection = { 公办: [], 民办: [], 其他: [] };
+  for (const s of schools.values()) bySection[s.section].push(s);
+  for (const k of SECTIONS) bySection[k].sort((a, b) => a.school.localeCompare(b.school, "zh"));
+
+  // 5) 摘要
+  const stat = (k) => ({ schools: bySection[k].length, majors: bySection[k].reduce((n, s) => n + s.majors.length, 0) });
+  const sPub = stat("公办"), sPri = stat("民办"), sOth = stat("其他");
+  sumEl.innerHTML =
+    `<div class="title">【${major}】报考【${cat}】</div>` +
+    `<div class="line">公办院校：<b>${sPub.schools}</b> 所，<b>${sPub.majors}</b> 个专业</div>` +
+    `<div class="line">民办院校：<b>${sPri.schools}</b> 所，<b>${sPri.majors}</b> 个专业</div>` +
+    `<div class="line">其他院校：<b>${sOth.schools}</b> 所，<b>${sOth.majors}</b> 个专业</div>`;
+
+  // 6) 渲染
+  const labels = ["公办院校", "民办院校", "其他院校"];
+  let html = "";
+  SECTIONS.forEach((sec, i) => {
+    const list = bySection[sec];
+    if (!list.length) return;
+    const st = stat(sec);
+    html += `<div class="section"><div class="section-head sh-${sec}">${labels[i]}　共 ${st.schools} 所院校，${st.majors} 个专业</div>`;
+    for (const s of list) html += renderCard(s);
+    html += `</div>`;
+  });
+  resEl.innerHTML = html;
+}
+
+function renderCard(s) {
+  const yearTh = YEARS.map(y => `<th>${y}计划</th>`).join("");
+  const scoreTh = SCORE_YEARS.map(y => `<th>${y}最低分</th>`).join("");
+  const rows = s.majors.map(m => {
+    const L = m.latest;
+    const planTds = YEARS.map(y => {
+      const r = m.t.byYear[y];
+      return `<td data-label="${y}计划">${r ? r.plan_count : '<span class="muted">—</span>'}</td>`;
+    }).join("");
+    const scoreTds = SCORE_YEARS.map(y => {
+      const v = scoreOf(y, L.school, L.undergraduate_major);
+      return `<td class="score" data-label="${y}最低分">${v != null ? v : '<span class="muted">—</span>'}</td>`;
+    }).join("");
+    const deltaTxt = (m.t.delta > 0 ? "+" : "") + m.t.delta;
+    const tuition = [...new Set(YEARS.map(y => m.t.byYear[y]?.tuition).filter(v => v != null))].join(" → ");
+    const tag = m.reason === "exact"
+      ? '<span class="tag tag-exact">明确可报</span>'
+      : '<span class="tag tag-open">本类别不限专业</span>';
+    return `<tr>
+      <td class="major" data-label="本科专业">${L.undergraduate_major}</td>
+      ${planTds}
+      <td class="trend ${m.t.dir}" data-label="计划变化">${deltaTxt}</td>
+      ${scoreTds}
+      <td data-label="学费(元/年)">${tuition}</td>
+      <td data-label="英语要求">${L.english_requirement || '<span class="muted">无</span>'}</td>
+      <td data-label="匹配状态">${tag}</td>
+    </tr>`;
+  }).join("");
+  const code = s.majors[0].latest.school_code || "";
+  return `<div class="card bg-${s.section}">
+    <div class="card-head">
+      <span class="name">${s.school}</span>
+      <span class="badge b-${s.type}">${s.type}</span>
+      <span class="code">院校代码 ${code}</span>
+      <span class="cnt">${s.majors.length} 个可报专业</span>
+    </div>
+    <table>
+      <thead><tr><th>本科专业</th>${yearTh}<th>计划变化</th>${scoreTh}<th>学费(元/年)</th><th>英语要求</th><th>匹配</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+</script>
+</body>
+</html>
