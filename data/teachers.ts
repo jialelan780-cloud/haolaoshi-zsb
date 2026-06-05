@@ -69,6 +69,8 @@ export interface TeachingStyle {
 
 export interface Teacher {
   id: string;
+  /** 学科赛道：science=理科（数学），liberal=文科（语文 / 英语）。缺省视为 science。 */
+  track?: "science" | "liberal";
   name: string;
   /** 头像用姓氏首字 + 渐变底色生成，无需图片资源 */
   avatarText: string;
@@ -572,6 +574,385 @@ export const teachers: Teacher[] = [
       { label: "答疑响应", value: "半夜也答疑" },
       { label: "模考讲评完成率", value: "100", unit: "%" },
       { label: "学生满意度", value: "97", unit: "%" },
+    ],
+  },
+  // ===================== 文科老师（语文 / 英语） =====================
+  // 升学相关数字（累计带教 / 上岸 / 时间轴 / 自我介绍 / 代表院校）由
+  // lib/liberalArtsData.ts 从 2022-2026 文科真实明细动态计算，此处静态内容仅作兜底。
+  {
+    id: "yu",
+    track: "liberal",
+    name: "余老师",
+    avatarText: "余",
+    avatarFrom: "from-rose-500",
+    avatarTo: "to-pink-700",
+    subject: "浙江专升本 · 英语",
+    teachingYears: "自 2022 年专注浙江专升本英语教学",
+    totalStudents: "累计带教数百名专升本文科学生",
+    expertise: ["语法体系重建", "阅读长难句拆解", "高频词汇滚动记忆", "写作模板与真题精练"],
+    oneLineIntro:
+      "专带浙江专升本英语，带过凌云班到基础班全班型，帮基础薄弱的同学把英语稳稳拉到 120+。",
+    currentStatus: "正在带文科凌云班、基础班英语主讲",
+    intro: [
+      "我是余老师，专门教浙江专升本英语。这些年我带过文科凌云班，也带过从零起步的基础班，最清楚专升本同学卡在哪：词汇记不住、长难句读不懂、写作没思路。",
+      "我的办法不复杂——先帮你把语法主干搭起来，再用真题里的高频题型反复练，把阅读和写作拆成可复制的步骤。基础差不要紧，只要肯每天背、肯跟着练，英语提分是最稳的。",
+    ],
+    teachingBelief:
+      "英语是专升本里最容易稳的一科。把单词、语法、真题一步步啃下来，基础再弱也能把该拿的分稳稳拿到手。",
+    experience: {
+      cohorts: "带过滨江起航多届文科班，凌云班、基础班英语主讲",
+      studentTypes: [
+        "词汇、语法基础薄弱的文科专科生",
+        "阅读读不懂、写作没思路的同学",
+        "想把英语从及格线提到 120+ 的同学",
+      ],
+      goodAtModules: ["语法体系", "阅读理解", "完形与翻译", "写作模板", "真题精练"],
+      classTypes: ["凌云班", "启航班", "冲刺班", "基础班", "1 对 1"],
+    },
+    teachingStyle: {
+      features: [
+        "语法先搭主干，再补细节，不堆术语",
+        "阅读长难句逐句拆解，教你抓主谓宾",
+        "写作给可套用的模板，配真题反复打磨",
+      ],
+      suitableForWeak: true,
+      focusFormula: true,
+      focusPatterns: true,
+      focusExamSkills: true,
+      hasReview: true,
+      description:
+        "讲课耐心、节奏稳，最看重把英语拆成可执行的小步骤。注重语法主干与高频题型归纳，配合每日词汇任务和真题精练，陪基础薄弱的文科同学把英语一步步垒到高分。",
+    },
+    mathModules: [],
+    timeline: [],
+    studentCases: [],
+    stats: [],
+    admissionSchools: [
+      "湖州师范学院",
+      "绍兴文理学院",
+      "衢州学院",
+      "浙江农林大学",
+      "温州理工学院",
+      "浙江理工大学",
+      "浙大宁波理工学院",
+      "浙江科技大学",
+    ],
+    specialCases: [
+      { title: "全班型带教", desc: "从凌云班到基础班，多年带教文科英语，覆盖不同起点的同学。" },
+      { title: "英语高分集中", desc: "历届英语 120+ 学员人数稳定，最高英语单科 136 分。" },
+      { title: "公办院校上岸", desc: "学员录取湖州师范学院、绍兴文理学院、浙江农林大学等院校。" },
+    ],
+    schedule: [
+      {
+        name: "文科凌云班（英语）",
+        stage: "春季强化阶段",
+        time: "每周日 9:30–11:30",
+        status: "进行中",
+        suitableFor: "目标公办本科、想冲英语高分的文科同学",
+      },
+      {
+        name: "文科基础班（英语）",
+        stage: "基础阶段",
+        time: "每周六 13:30–15:30",
+        status: "进行中",
+        suitableFor: "英语基础薄弱、想从语法词汇打起的同学",
+      },
+    ],
+    studentTestimonials: [
+      { content: "余老师把语法讲得特别清楚，我以前最怕长难句，现在阅读能读懂大半了。", author: "一位文科班学员" },
+      { content: "每天的单词任务和真题练习帮我把英语从九十多分提到了一百二。", author: "已上岸学员" },
+    ],
+    parentTestimonials: [
+      { content: "孩子英语以前没自信，跟着余老师学之后愿意每天背单词了。", author: "一位学员家长" },
+    ],
+    feedback: [
+      { label: "课后反馈完成率", value: "100", unit: "%" },
+      { label: "作业批改及时率", value: "98", unit: "%" },
+      { label: "答疑响应", value: "随问随答" },
+      { label: "真题讲评完成率", value: "100", unit: "%" },
+      { label: "学生满意度", value: "98", unit: "%" },
+    ],
+  },
+  {
+    id: "chai",
+    track: "liberal",
+    name: "柴老师",
+    avatarText: "柴",
+    avatarFrom: "from-violet-500",
+    avatarTo: "to-purple-700",
+    subject: "浙江专升本 · 英语",
+    teachingYears: "深耕浙江专升本英语教学，所带班级上岸率突出",
+    totalStudents: "累计带教数百名专升本文科学生",
+    expertise: ["应试节奏把控", "得分点优先训练", "题型分类突破", "考前冲刺提分"],
+    oneLineIntro:
+      "带浙江专升本英语，擅长按得分点规划复习，所带文科班上岸率稳定，帮同学把英语分数稳稳拿住。",
+    currentStatus: "正在带文科启航班、冲刺班英语主讲",
+    intro: [
+      "我是柴老师，教浙江专升本英语。我带的文科班大多目标明确——稳上岸、冲公办，所以我特别看重得分效率：哪些题必须拿、哪些题可以舍，我会帮你算清楚。",
+      "我会把英语按题型拆开训练，阅读、完形、翻译、写作各有打法，再用真题节奏反复磨。跟着我的复习计划走，英语这一科很难失手。",
+    ],
+    teachingBelief:
+      "英语提分靠的是把每个得分点稳稳吃下。分清主次、按节奏练，上岸需要的分一分都不会丢。",
+    experience: {
+      cohorts: "带过滨江起航多届文科班，启航班、冲刺班英语主讲，班级上岸率突出",
+      studentTypes: [
+        "目标明确、想稳上岸冲公办的文科生",
+        "英语成绩起伏、想稳定发挥的同学",
+        "需要应试节奏和得分点规划的同学",
+      ],
+      goodAtModules: ["阅读理解", "完形填空", "翻译", "写作", "真题节奏"],
+      classTypes: ["凌云班", "启航班", "冲刺班", "基础班", "1 对 1"],
+    },
+    teachingStyle: {
+      features: [
+        "按得分点优先级安排复习，不在低性价比题上耗时间",
+        "题型分类训练，每类题给固定打法",
+        "用真题模考磨节奏，考场上不慌不乱",
+      ],
+      suitableForWeak: true,
+      focusFormula: true,
+      focusPatterns: true,
+      focusExamSkills: true,
+      hasReview: true,
+      description:
+        "讲课条理清晰、节奏感强，擅长把英语按题型和得分点拆成体系。注重应试中的取舍与时间分配，配合真题模考与讲评，帮文科同学把英语稳定在高分段、稳稳上岸。",
+    },
+    mathModules: [],
+    timeline: [],
+    studentCases: [],
+    stats: [],
+    admissionSchools: [
+      "浙江工商大学杭州商学院",
+      "浙江理工大学",
+      "浙江农林大学",
+      "浙江科技大学",
+      "丽水学院",
+      "湖州师范学院",
+      "浙江越秀外国语学院",
+      "衢州学院",
+    ],
+    specialCases: [
+      { title: "班级满额上岸", desc: "所带文科英语班级上岸率突出，学员升学结果稳定。" },
+      { title: "公办录取集中", desc: "学员录取浙江理工大学、浙江农林大学、浙江科技大学等公办院校。" },
+      { title: "应试节奏稳", desc: "按得分点规划复习，帮成绩起伏的同学稳定发挥。" },
+    ],
+    schedule: [
+      {
+        name: "文科启航班（英语）",
+        stage: "春季强化阶段",
+        time: "每周六 9:30–11:30",
+        status: "进行中",
+        suitableFor: "目标稳上岸、冲公办的文科同学",
+      },
+      {
+        name: "文科冲刺班（英语）",
+        stage: "冲刺阶段",
+        time: "每周日 14:00–16:00",
+        status: "进行中",
+        suitableFor: "需要考前提速、抠得分点的同学",
+      },
+    ],
+    studentTestimonials: [
+      { content: "柴老师帮我把该拿的分理得很清楚，英语发挥比平时稳多了。", author: "一位文科班学员" },
+      { content: "题型分类讲解之后，我做阅读和完形快了很多，正确率也上来了。", author: "已上岸学员" },
+    ],
+    parentTestimonials: [
+      { content: "老师会同步孩子的复习节奏，我们心里有数，挺放心。", author: "一位学员家长" },
+    ],
+    feedback: [
+      { label: "课后反馈完成率", value: "100", unit: "%" },
+      { label: "作业批改及时率", value: "97", unit: "%" },
+      { label: "答疑响应", value: "及时答疑" },
+      { label: "真题讲评完成率", value: "100", unit: "%" },
+      { label: "学生满意度", value: "97", unit: "%" },
+    ],
+  },
+  {
+    id: "shi",
+    track: "liberal",
+    name: "石老师",
+    avatarText: "石",
+    avatarFrom: "from-emerald-500",
+    avatarTo: "to-teal-700",
+    subject: "浙江专升本 · 大学语文",
+    teachingYears: "自 2022 年专注浙江专升本语文教学",
+    totalStudents: "累计带教数百名专升本文科学生",
+    expertise: ["文言文逐句精讲", "阅读答题规范", "作文素材积累", "高频考点归纳"],
+    oneLineIntro:
+      "专带浙江专升本语文，文言文、阅读、作文逐项突破，帮基础一般的同学把语文稳到 120+。",
+    currentStatus: "正在带文科启航班、基础班语文主讲",
+    intro: [
+      "我是石老师，教浙江专升本大学语文。语文看着是‘母语’好像不用学，其实专升本语文考点很明确：文言文、现代文阅读、作文，每一块都有方法。",
+      "我会带你把文言实词虚词、阅读答题套路、作文素材一项项落实，把容易丢的分先补回来。语文是稳分项，认真跟着练，120+ 并不难。",
+    ],
+    teachingBelief:
+      "语文不是玄学，是有套路、有考点的稳分科。把文言、阅读、作文一块块抠扎实，分数自然稳得住。",
+    experience: {
+      cohorts: "带过滨江起航多届文科班，启航班、基础班语文主讲",
+      studentTypes: [
+        "语文凭语感、答题不规范的文科生",
+        "文言文读不懂、作文写不快的同学",
+        "想把语文从及格线提到 120+ 的同学",
+      ],
+      goodAtModules: ["文言文", "现代文阅读", "古诗词鉴赏", "作文", "高频考点"],
+      classTypes: ["凌云班", "启航班", "冲刺班", "基础班", "1 对 1"],
+    },
+    teachingStyle: {
+      features: [
+        "文言文逐句精讲，实词虚词成体系",
+        "阅读教答题规范，踩点拿分",
+        "作文给素材库和结构模板，限时练笔",
+      ],
+      suitableForWeak: true,
+      focusFormula: true,
+      focusPatterns: true,
+      focusExamSkills: true,
+      hasReview: true,
+      description:
+        "讲课细致、考点清晰，最看重把语文从‘凭感觉’变成‘有方法’。注重文言基础与阅读答题规范，配合作文素材积累和限时训练，帮文科同学把语文稳定在高分段。",
+    },
+    mathModules: [],
+    timeline: [],
+    studentCases: [],
+    stats: [],
+    admissionSchools: [
+      "宁波大学科学技术学院",
+      "浙江理工大学",
+      "浙江农林大学暨阳学院",
+      "浙江师范大学行知学院",
+      "浙江工商大学杭州商学院",
+      "浙江科技大学",
+      "嘉兴大学",
+      "湖州师范学院",
+    ],
+    specialCases: [
+      { title: "语文高分集中", desc: "历届语文 120+ 学员人数突出，最高语文单科 142 分。" },
+      { title: "文言文逐项突破", desc: "文言实词虚词成体系，帮读不懂的同学补回失分。" },
+      { title: "公办与民办兼顾", desc: "学员录取宁波大学科学技术学院、浙江理工大学等院校。" },
+    ],
+    schedule: [
+      {
+        name: "文科启航班（语文）",
+        stage: "春季强化阶段",
+        time: "每周六 15:30–17:30",
+        status: "进行中",
+        suitableFor: "想把语文从及格线提到高分的文科同学",
+      },
+      {
+        name: "文科基础班（语文）",
+        stage: "基础阶段",
+        time: "每周日 9:30–11:30",
+        status: "进行中",
+        suitableFor: "文言文基础薄弱、作文写不快的同学",
+      },
+    ],
+    studentTestimonials: [
+      { content: "石老师把文言文讲得很细，我从看不懂到能踩点拿分了。", author: "一位文科班学员" },
+      { content: "作文有了素材库和模板，限时也能写完，分数稳了不少。", author: "已上岸学员" },
+    ],
+    parentTestimonials: [
+      { content: "孩子以前觉得语文没法复习，现在知道怎么针对考点练了。", author: "一位学员家长" },
+    ],
+    feedback: [
+      { label: "课后反馈完成率", value: "100", unit: "%" },
+      { label: "作业批改及时率", value: "97", unit: "%" },
+      { label: "答疑响应", value: "随问随答" },
+      { label: "作文批改完成率", value: "100", unit: "%" },
+      { label: "学生满意度", value: "97", unit: "%" },
+    ],
+  },
+  {
+    id: "silu",
+    track: "liberal",
+    name: "思路老师",
+    avatarText: "思",
+    avatarFrom: "from-amber-500",
+    avatarTo: "to-orange-700",
+    subject: "浙江专升本 · 大学语文",
+    teachingYears: "深耕浙江专升本语文教学，所带凌云班上岸率近满额",
+    totalStudents: "累计带教数百名专升本文科学生",
+    expertise: ["答题思路拆解", "作文快速成文", "阅读踩点训练", "考前高频押题"],
+    oneLineIntro:
+      "带浙江专升本语文凌云班，上岸率近满额、公办率高，最擅长把语文答题‘思路’讲透。",
+    currentStatus: "正在带文科凌云班、冲刺班语文主讲",
+    intro: [
+      "我是思路老师，教浙江专升本大学语文。我带的文科凌云班目标都很高——冲公办、冲高分，所以我讲课最看重一个词：思路。题目怎么读、答案怎么组织、作文怎么立意，我都给你拆成清晰的步骤。",
+      "语文要拿高分，靠的不是背更多，而是会答。我会带你把阅读踩点、作文成文、文言翻译都练成条件反射，让你考场上有思路、不慌、下笔快。",
+    ],
+    teachingBelief:
+      "语文高分拼的是‘会答’。把每类题的思路讲透、练成习惯，公办本科需要的分稳稳到手。",
+    experience: {
+      cohorts: "带过滨江起航多届文科凌云班，上岸率近满额、公办率突出",
+      studentTypes: [
+        "目标公办、想冲语文高分的文科生",
+        "会读不会答、作文立意慢的同学",
+        "需要清晰答题思路和成文方法的同学",
+      ],
+      goodAtModules: ["现代文阅读", "文言文", "作文立意", "古诗词鉴赏", "高频押题"],
+      classTypes: ["凌云班", "启航班", "冲刺班", "基础班", "1 对 1"],
+    },
+    teachingStyle: {
+      features: [
+        "把每类题的答题思路拆成步骤，照着走就能落笔",
+        "作文教快速立意和结构，限时也能写出高分文",
+        "考前归纳高频考点，押题方向清晰",
+      ],
+      suitableForWeak: true,
+      focusFormula: true,
+      focusPatterns: true,
+      focusExamSkills: true,
+      hasReview: true,
+      description:
+        "讲课逻辑清晰、最重‘思路’二字，擅长把语文答题和作文拆成可复制的步骤。注重阅读踩点与作文成文效率，配合高频考点归纳和限时训练，帮文科同学把语文稳定冲到高分段。",
+    },
+    mathModules: [],
+    timeline: [],
+    studentCases: [],
+    stats: [],
+    admissionSchools: [
+      "湖州师范学院",
+      "衢州学院",
+      "浙江农林大学",
+      "绍兴文理学院",
+      "浙大宁波理工学院",
+      "温州理工学院",
+      "浙江外国语学院",
+      "浙江理工大学",
+    ],
+    specialCases: [
+      { title: "凌云班近满额上岸", desc: "所带文科凌云班上岸率近满额，公办录取人数突出。" },
+      { title: "语文高分密集", desc: "历届语文 120+ 学员人数领先，最高语文单科 143 分。" },
+      { title: "公办院校集中", desc: "学员录取湖州师范学院、浙江农林大学、浙江外国语学院等。" },
+    ],
+    schedule: [
+      {
+        name: "文科凌云班（语文）",
+        stage: "春季强化阶段",
+        time: "每周日 13:30–15:30",
+        status: "进行中",
+        suitableFor: "目标公办本科、想冲语文高分的文科同学",
+      },
+      {
+        name: "文科冲刺班（语文）",
+        stage: "冲刺阶段",
+        time: "每周六 19:00–21:00",
+        status: "进行中",
+        suitableFor: "需要考前理清答题思路、抓高频考点的同学",
+      },
+    ],
+    studentTestimonials: [
+      { content: "思路老师讲的答题步骤太实用了，我语文从会读变成了会答。", author: "一位文科班学员" },
+      { content: "作文以前总写不完，老师教的立意和结构让我限时也能拿高分。", author: "已上岸学员" },
+    ],
+    parentTestimonials: [
+      { content: "孩子语文进步最明显，老师把思路讲得很清楚，孩子答题有章法了。", author: "一位学员家长" },
+    ],
+    feedback: [
+      { label: "课后反馈完成率", value: "100", unit: "%" },
+      { label: "作业批改及时率", value: "98", unit: "%" },
+      { label: "答疑响应", value: "随问随答" },
+      { label: "作文批改完成率", value: "100", unit: "%" },
+      { label: "学生满意度", value: "98", unit: "%" },
     ],
   },
 ];

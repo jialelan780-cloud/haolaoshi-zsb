@@ -1,10 +1,18 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { Teacher } from "@/data/teachers";
 import Avatar from "./Avatar";
 import TeacherAdmissionDataModal from "./TeacherAdmissionDataModal";
 
 /** 模块 1：顶部老师名片 */
-export default function TeacherHero({ teacher }: { teacher: Teacher }) {
+export default function TeacherHero({
+  teacher,
+  dataSlot,
+}: {
+  teacher: Teacher;
+  /** 升学数据入口：缺省用理科 modal；文科老师可传入对应的 modal */
+  dataSlot?: ReactNode;
+}) {
   const cards = [
     { label: "主授科目", value: teacher.subject || "浙江专升本 · 高等数学" },
     { label: "教龄", value: teacher.teachingYears || "暂未填写" },
@@ -67,9 +75,9 @@ export default function TeacherHero({ teacher }: { teacher: Teacher }) {
           ))}
         </div>
 
-        {/* 入口：查看 2022-2024 历年升学数据 */}
+        {/* 入口：查看 2022-2026 历年升学数据 */}
         <div className="mt-5">
-          <TeacherAdmissionDataModal />
+          {dataSlot ?? <TeacherAdmissionDataModal />}
         </div>
       </div>
     </header>

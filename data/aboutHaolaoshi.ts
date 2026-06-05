@@ -153,10 +153,10 @@ export interface TeacherLink {
 export const teacherLinks: TeacherLink[] = [
   { name: "乔老师", subject: "高等数学", href: "/teachers/qiao" },
   { name: "周老师", subject: "高等数学", href: "/teachers/zhou" },
-  { name: "余老师", subject: "英语" },
-  { name: "韩老师", subject: "英语" },
-  { name: "柴老师", subject: "英语" },
-  { name: "语文老师", subject: "待补充" },
+  { name: "余老师", subject: "英语", href: "/teachers/yu" },
+  { name: "柴老师", subject: "英语", href: "/teachers/chai" },
+  { name: "思路老师", subject: "语文", href: "/teachers/silu" },
+  { name: "石老师", subject: "语文", href: "/teachers/shi" },
 ];
 
 /* ---------- 10. 课程产品（卡片化，不再用长图） ---------- */

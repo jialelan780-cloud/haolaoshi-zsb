@@ -9,6 +9,13 @@ import {
   generateTeacherTimeline,
   generateTeacherIntro,
 } from "@/lib/admissionData";
+import {
+  getLiberalTeacher,
+  filterLARecords,
+  getLASummary,
+  generateLATimeline,
+  generateLAIntro,
+} from "@/lib/liberalArtsData";
 
 import TeacherHero from "@/components/TeacherHero";
 import TeacherIntro from "@/components/TeacherIntro";
@@ -19,6 +26,8 @@ import Timeline from "@/components/Timeline";
 import StudentCases from "@/components/StudentCases";
 import StatsSection from "@/components/StatsSection";
 import AdmissionSchools from "@/components/AdmissionSchools";
+import LiberalArtsSchools from "@/components/LiberalArtsSchools";
+import LiberalArtsDataModal from "@/components/LiberalArtsDataModal";
 import SpecialCases from "@/components/SpecialCases";
 import ScheduleSection from "@/components/ScheduleSection";
 import Testimonials from "@/components/Testimonials";
@@ -28,7 +37,7 @@ interface PageProps {
   params: { id: string };
 }
 
-/** 预生成两个老师的静态路由 */
+/** 预生成全部老师（理科 + 文科）的静态路由 */
 export function generateStaticParams() {
   return getAllTeacherIds().map((id) => ({ id }));
 }
@@ -42,10 +51,76 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
+const SharedFooter = () => (
+  <footer className="mx-auto mt-6 max-w-5xl px-5">
+    <div className="rounded-2xl border border-slate-200 bg-white py-6 text-center text-sm text-slate-400">
+      浙江专升本教学团队 · 本页数据为展示用途
+    </div>
+  </footer>
+);
+
 export default function TeacherDetailPage({ params }: PageProps) {
   const baseTeacher = getTeacherById(params.id);
   if (!baseTeacher) notFound();
 
+  /* ======================= 文科老师（语文 / 英语） ======================= */
+  const liberal = getLiberalTeacher(baseTeacher.id);
+  if (baseTeacher.track === "liberal" && liberal) {
+    const { subject, dataKey, name } = liberal;
+    const records = filterLARecords({ subject, teacher: dataKey });
+    const s = records.length ? getLASummary(records, subject) : null;
+
+    const dynamicStats: StatItem[] = s
+      ? [
+          { label: "累计带教学生（2022-2026）", value: `${s.studentCount}`, unit: "人" },
+          { label: "累计上岸人数", value: `${s.admittedCount}`, unit: "人" },
+          { label: "综合上岸率", value: (s.admissionRate * 100).toFixed(1), unit: "%" },
+          { label: "公办本科率", value: (s.publicRate * 100).toFixed(1), unit: "%" },
+          { label: `${subject} 120 分以上`, value: `${s.score120Plus}`, unit: "人" },
+          { label: `最高${subject}单科`, value: `${s.maxScore}`, unit: "分" },
+        ]
+      : baseTeacher.stats;
+
+    const dynamicTimeline = generateLATimeline(subject, dataKey);
+    const dynamicIntro = generateLAIntro(subject, dataKey);
+
+    const teacher = s
+      ? {
+          ...baseTeacher,
+          totalStudents: `累计带教 ${s.studentCount} 名专升本文科学生`,
+          stats: dynamicStats,
+          timeline: dynamicTimeline.length ? dynamicTimeline : baseTeacher.timeline,
+          intro: dynamicIntro
+            ? [baseTeacher.intro[0], dynamicIntro, ...baseTeacher.intro.slice(1)]
+            : baseTeacher.intro,
+        }
+      : baseTeacher;
+
+    return (
+      <main className="min-h-screen pb-16">
+        <TeacherHero
+          teacher={teacher}
+          dataSlot={
+            <LiberalArtsDataModal subject={subject} teacherName={dataKey} displayName={name} />
+          }
+        />
+        <TeacherIntro teacher={teacher} />
+        <TeachingExperience teacher={teacher} />
+        <TeachingStyle teacher={teacher} />
+        <Timeline teacher={teacher} />
+        <StudentCases teacher={teacher} />
+        <StatsSection teacher={teacher} />
+        <LiberalArtsSchools subject={subject} teacherName={dataKey} />
+        <SpecialCases teacher={teacher} />
+        <ScheduleSection teacher={teacher} />
+        <Testimonials teacher={teacher} />
+        <FeedbackSection teacher={teacher} />
+        <SharedFooter />
+      </main>
+    );
+  }
+
+  /* ======================= 理科老师（数学，原逻辑不变） ======================= */
   // 升学相关数字全部从 2022-2026 真实明细动态计算（不写死）
   const teacherName = TEACHER_BY_ID[baseTeacher.id];
   const records = teacherName ? filterRecords({ teacher: teacherName }) : [];
@@ -95,12 +170,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
       <ScheduleSection teacher={teacher} />
       <Testimonials teacher={teacher} />
       <FeedbackSection teacher={teacher} />
-
-      <footer className="mx-auto mt-6 max-w-5xl px-5">
-        <div className="rounded-2xl border border-slate-200 bg-white py-6 text-center text-sm text-slate-400">
-          浙江专升本数学教学团队 · 本页数据为展示用途
-        </div>
-      </footer>
+      <SharedFooter />
     </main>
   );
 }
