@@ -23,6 +23,10 @@ import {
   getSchoolGroups,
   formatPercent,
 } from "@/lib/admissionData";
+import {
+  getLiberalCampusSummary,
+  getLiberalCampusSchools,
+} from "@/lib/liberalArtsData";
 import { testimonials } from "@/lib/testimonials";
 import TestimonialGallery from "@/components/TestimonialGallery";
 
@@ -70,6 +74,10 @@ export default function AboutHaolaoshiPage() {
   const liRecords = filterRecords({});
   const li = liRecords.length ? getSummary(liRecords) : null;
   const liSchools = getSchoolGroups(liRecords).slice(0, 6).map((g) => g.school);
+
+  // 文科方向（语文 / 英语）整体汇总
+  const wen = getLiberalCampusSummary();
+  const wenSchools = getLiberalCampusSchools(6);
   const caseImages = listAssets("cases", [".jpg", ".jpeg", ".png", ".webp"]);
   const logo = findLogo();
   const heroStats = nationalLayout.stats;
@@ -386,17 +394,29 @@ export default function AboutHaolaoshiPage() {
               <p className="rounded-xl bg-slate-50 p-6 text-center text-sm text-slate-400">数据整理中</p>
             )}
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-amber-100 bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-2">
               <span className="rounded-lg bg-amber-500 px-2.5 py-1 text-xs font-bold text-white">文科方向</span>
-              <span className="text-xs text-slate-400">语文 / 英语方向</span>
+              <span className="text-xs text-slate-400">语文 / 英语 · 2022-2026 真实带班结果</span>
             </div>
-            <div className="grid grid-cols-3 gap-3 text-center opacity-60">
-              <ResultStat label="综合上岸率" value="—" color="text-slate-400" />
-              <ResultStat label="公办率" value="—" color="text-slate-400" />
-              <ResultStat label="语文/英语高分" value="—" color="text-slate-400" />
+            <div className="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+              <ResultStat label="累计带教学生" value={`${wen.studentCount} 人`} color="text-amber-600" />
+              <ResultStat label="累计上岸人数" value={`${wen.admittedCount} 人`} color="text-amber-600" />
+              <ResultStat label="综合上岸率" value={formatPercent(wen.admissionRate)} color="text-emerald-600" />
+              <ResultStat label="公办本科率" value={formatPercent(wen.publicRate)} color="text-emerald-600" />
+              <ResultStat label="语文 120+ 人数" value={`${wen.chinese120} 人`} color="text-orange-600" />
+              <ResultStat label="英语 120+ 人数" value={`${wen.english120} 人`} color="text-orange-600" />
+              <ResultStat label="平均总分" value={wen.avgTotal.toFixed(1)} color="text-amber-600" />
+              <ResultStat label="代表录取院校" value={`${wen.schoolCount} 所`} color="text-amber-600" />
             </div>
-            <p className="mt-4 rounded-xl bg-slate-50 p-4 text-center text-sm text-slate-500">文科方向升学数据整理中，将于后续补充。</p>
+            <div className="mt-4">
+              <p className="mb-2 text-sm font-semibold text-slate-700">部分代表录取院校</p>
+              <div className="flex flex-wrap gap-2">
+                {wenSchools.map((s) => (
+                  <span key={s} className="rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">{s}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <p className="mt-5 leading-8 text-slate-700">

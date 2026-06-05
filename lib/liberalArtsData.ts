@@ -232,6 +232,51 @@ export function getLASchoolGroups(records: LiberalArtsRecord[]): LASchoolGroup[]
   return out.sort((a, b) => b.count - a.count || b.maxTotal - a.maxTotal);
 }
 
+export interface LiberalCampusSummary {
+  studentCount: number;
+  admittedCount: number;
+  admissionRate: number;
+  publicCount: number;
+  publicRate: number;
+  chinese120: number; // 语文 120+ 人数
+  english120: number; // 英语 120+ 人数
+  maxChinese: number;
+  maxEnglish: number;
+  avgTotal: number;
+  schoolCount: number;
+}
+
+/** 滨江校区文科方向整体汇总（语文 + 英语全部学生） */
+export function getLiberalCampusSummary(): LiberalCampusSummary {
+  const recs = liberalArtsRecords;
+  const n = recs.length;
+  const admitted = recs.filter((r) => r.admitted);
+  const publicN = recs.filter((r) => r.admissionType === "公办本科").length;
+  const schools = new Set(
+    admitted.filter((r) => r.school && r.school !== "未录取").map((r) => r.school),
+  );
+  return {
+    studentCount: n,
+    admittedCount: admitted.length,
+    admissionRate: n ? admitted.length / n : 0,
+    publicCount: publicN,
+    publicRate: n ? publicN / n : 0,
+    chinese120: recs.filter((r) => r.chinese120).length,
+    english120: recs.filter((r) => r.english120).length,
+    maxChinese: Math.max(...recs.map((r) => r.chinese)),
+    maxEnglish: Math.max(...recs.map((r) => r.english)),
+    avgTotal: n ? recs.reduce((a, b) => a + b.total, 0) / n : 0,
+    schoolCount: schools.size,
+  };
+}
+
+/** 文科方向整体代表录取院校（按录取人数排序，取前 n 所） */
+export function getLiberalCampusSchools(n = 6): string[] {
+  return getLASchoolGroups(liberalArtsRecords)
+    .slice(0, n)
+    .map((g) => g.school);
+}
+
 /** 某位老师的代表录取院校（按录取人数排序，取前 n 所） */
 export function getLARepresentativeSchools(
   subject: Subject,
